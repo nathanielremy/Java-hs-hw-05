@@ -7,17 +7,17 @@ import java.util.Set;
 
 public class HW03 {
     public static void main(String[] args) {
-        MyHashMap<Integer, Integer> myMap = new MyHashMap<Integer, Integer>(200, 30);
+        MyHashMap<Integer, Integer> myMap = new MyHashMap<Integer, Integer>();
         myMap.put(20, 30);
         myMap.put(22, 33);
     }
 }
 
-abstract class MyHashMap<K, V> implements Map<K, V> {
+class MyHashMap<K, V> implements Map<K, V> {
 
     KeyValPair<K, V> elements[] = new KeyValPair[100];
 
-    private int getHash(K key) {
+    private int getHash(Object key) {
         int hash = key.hashCode();
         return hash % 100;
     }
@@ -33,41 +33,43 @@ abstract class MyHashMap<K, V> implements Map<K, V> {
     }
 
     @Override
-    public boolean containsKey(K key) {
+    public boolean containsKey(Object key) {
         int index = getHash(key);
         return (elements[index] == null);
     }
 
     @Override
-    public boolean containsValue(V value) {
-
-        return true;
+    public boolean containsValue(Object o) {
+        return false;
     }
 
     @Override
-    public V get(K key) {
+    public V get(Object key) {
         int index = getHash(key);
         return elements[index].value;
     }
 
-    public void put(K key, V value) {
-        int index = getHash(key);
-        storeValue(index, key, value);
+    @Override
+    public V put(K k, V v) {
+        int index = getHash(k);
+        storeValue(index, k, v);
+
+        return v;
     }
 
     @Override
-    public void remove(K key) {
+    public V remove(Object key) {
         int index = getHash(key);
         KeyValPair<K, V> list = elements[index];
 
         if (list == null) {
-            return;
+            return null;
         }
 
         if(list.getKey().equals(key)){
             if (list.next == null){
                 elements[index] = null;
-                return;
+                return null;
             }
         }
         KeyValPair<K, V> prev = null;
@@ -85,7 +87,10 @@ abstract class MyHashMap<K, V> implements Map<K, V> {
         }  while(list != null);
 
         elements[index] = list;
+
+        return elements[index].value;
     }
+
 
     @Override
     public void putAll(Map<? extends K, ? extends V> map) {
@@ -112,27 +117,13 @@ abstract class MyHashMap<K, V> implements Map<K, V> {
         return null;
     }
 
-
-    private V getMatchValue(KeyValPair<K, V> list, K key) {
-        while (list != null) {
-            if (list.getKey().equals(key)) {
-                return list.getValue();
-            }
-
-            list = list.next;
-        }
-        return null;
-    }
-
     private void storeValue(int index, K key, V value) {
         KeyValPair<K, V> list = elements[index];
 
-        // if list is empty , enter as first element
         if (list == null) {
             elements[index] = new KeyValPair<K, V>(key, value);
         } else {
             boolean done = false;
-            // traverse through list , if a key is found ,replace the value or add it at the end of the list
             while(list.next != null) {
                 if (list.getKey().equals(key)) {
                     list.setValue(value);
@@ -141,16 +132,17 @@ abstract class MyHashMap<K, V> implements Map<K, V> {
                 }
                 list = list.next;
             }
-            // add at the end of the list
             if (!done)
                 list.next = new KeyValPair<K, V>(key, value);
         }
     }
-
-    public static void main(String args[]) {
-    }
+//
+//    public static void MyHashMap() {
+//        MyHashMap<Integer, Integer> myMap = new MyHashMap<Integer, Integer>();
+//        myMap.put(20, 30);
+//        myMap.put(22, 33);
+//    }
 }
-
 
 class KeyValPair<K, V> {
     K key;
