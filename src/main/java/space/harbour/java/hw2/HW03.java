@@ -99,7 +99,9 @@ class MyHashMap<K, V> implements Map<K, V> {
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size(); i++) {
+            remove(elements[i].key);
+        }
     }
 
     @Override
