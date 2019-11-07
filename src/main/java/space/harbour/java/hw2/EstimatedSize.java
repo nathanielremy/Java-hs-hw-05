@@ -3,13 +3,13 @@ package space.harbour.java.hw2;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EstimatedSize {
-    public static void main(String[] args) {
+//public class EstimatedSize {
+    //public static void main(String[] args) {
         //Pascal.pTriangle(20);
         //Slang.fixAbbreviations("GTFO");
         //Slang.fixSmiles(":)");
-    }
-}
+    //}
+//}
 
 class Slang {
     static void fixAbbreviations(String abbreviation) {
