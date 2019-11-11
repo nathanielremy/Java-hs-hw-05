@@ -29,17 +29,28 @@ class MyHashMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean isEmpty() {
-        return elements.length == 0;
+        for(int i = 0; i < elements.length; i++) {
+            if(elements[i] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean containsKey(Object key) {
         int index = getHash(key);
-        return (elements[index] == null);
+        return (elements[index] != null);
     }
 
     @Override
     public boolean containsValue(Object o) {
+        for(int i = 0; i < elements.length; i++) {
+            if (elements[i] != null && elements[i].value == o) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -72,7 +83,9 @@ class MyHashMap<K, V> implements Map<K, V> {
                 return null;
             }
         }
+
         KeyValPair<K, V> prev = null;
+
         do {
             if(list.key.equals(key)) {
                 if (prev == null) {
@@ -87,7 +100,6 @@ class MyHashMap<K, V> implements Map<K, V> {
         }  while(list != null);
 
         elements[index] = list;
-
         return elements[index].value;
     }
 
@@ -100,7 +112,7 @@ class MyHashMap<K, V> implements Map<K, V> {
     @Override
     public void clear() {
         for (int i = 0; i < size(); i++) {
-            remove(elements[i].key);
+            remove(i);
         }
     }
 
