@@ -17,7 +17,7 @@ class MyHashMap<K, V> implements Map<K, V> {
 
     KeyValPair<K, V> elements[] = new KeyValPair[100];
 
-    private int getHash(Object key) {
+    int getHash(Object key) {
         int hash = key.hashCode();
         return hash % 100;
     }

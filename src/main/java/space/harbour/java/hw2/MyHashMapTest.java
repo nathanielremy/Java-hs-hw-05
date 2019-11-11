@@ -81,15 +81,22 @@ public class MyHashMapTest {
         myHashMap.put(11, 33);
 
         assertTrue(myHashMap.containsKey(11));
+        assertTrue(myHashMap.containsValue(33));
+
+        myHashMap.remove(11);
+        assertFalse(myHashMap.containsValue(33));
+        assertFalse(myHashMap.containsKey(11));
     }
 
     @Test
     public void remove() {
         myHashMap.clear();
+        myHashMap.put(21, 43);
         myHashMap.put(22, 44);
         myHashMap.remove(22);
 
         assertFalse(myHashMap.containsKey(22));
+        assertTrue(myHashMap.containsValue(44) == false);
     }
 
     @Test
@@ -100,6 +107,11 @@ public class MyHashMapTest {
     public void clear() {
         myHashMap.clear();
         assertEquals(100, myHashMap.size());
+
+        for(int i = 0; i < myHashMap.elements.length; i++) {
+            int index = myHashMap.getHash(i);
+            assertTrue(myHashMap.elements[index] == null);
+        }
     }
 
     @Test
